@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+
+<div id="wrapper">
+  <div class="overlay"></div>
+
+  <!-- Sidebar -->
+  <nav class="navbar navbar-inverse fixed-top" id="sidebar-wrapper" role="navigation">
+    <ul class="nav sidebar-nav">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <a href="#"><img class="img-brand" src="/images/mada-logo.png" alt=""></a>
+        </div>
+      </div>
+      <li class="home"><a href="/main">Home</a></li>
+      <li class="dropdown">
+        <a href="#senarai" class="dropdown-toggle" data-toggle="dropdown">Senarai Permohonan <span class="caret"></span></a>
+        <ul class="dropdown-menu animated fadeInLeft" role="menu">
+          <li><a href="/main/diluluskan">Diluluskan</a></li>
+          <li><a href="/main/tidakdiluluskan">Tidak Diluluskan</a></li>
+        </ul>
+      </li>
+      <li class="logout"><a class="logout" href="/logout">Log Keluar</a></li>
+      <!-- <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a> -->
+    </ul>
+  </nav>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+    <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+      <span class="hamb-top"></span>
+      <span class="hamb-middle"></span>
+      <span class="hamb-bottom"></span>
+    </button>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-12 col-lg-offset-2">
+
+          <table class="table caption-top">
+  <caption>List of users</caption>
+  <thead>
+    <tr>
+      <th scope="col">No</th>
+      <th scope="col">Nama</th>
+      <th scope="col">Tarikh Pendaftaran</th>
+      <th scope="col">Status Pendaftaran</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <%  userApproved.forEach(function(user){  %>
+      <tr>
+        <th class="th-count" scope="row"></th>
+        <td><%= user.userData.nama %></td>
+        <td><%= user.userData.tarikhDaftar %></td>
+        <td><%= user.status %></td>
+        <td><form class="button-form" action="/delete/<%= user.id %>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">Delete</button>
+            </form>
+            <form class="button-form" action="/main/statuslulus/<%= user.id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger"><i class="far fa-check-circle"></i></button>
+                </form>
+                <form class="button-form" action="/main/statustidaklulus/<%= user.id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger"><i class="far fa-times-circle"></i></button>
+                    </form>
+                    <form class="button-form" action="/main/view/<%= user.id %>" method="POST">
+                        <button class="btn btn-danger">View</button>
+                        </form></td>
+      </tr>
+  <%  }) %>
+
+
+  </tbody>
+</table>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /#page-content-wrapper -->
+
+
+<!-- /#wrapper -->
+
+
+
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+
+<%- include('partials/footer') %>

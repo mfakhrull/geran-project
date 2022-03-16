@@ -1,0 +1,33 @@
+<%- include('partials/header') %>
+
+<main class="form-signin">
+
+    <img class="mb-4" src="images/mada-logo.png">
+    <h1 class="h3 mb-3 fw-normal">Sign In</h1>
+
+  <form action="/login" method="POST">
+    <div class="form-floating">
+      <input type="email" name="username" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <label for="floatingInput">Email address</label>
+    </div>
+    <div class="form-floating">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <label for="floatingPassword">Password</label>
+    </div>
+
+    <!-- <div class="checkbox mb-3">
+      <label>
+        <input type="checkbox" value="remember-me"> Remember me
+      </label>
+    </div> -->
+    <button type="submit" class="w-100 btn btn-lg btn-secondary">Login</button>
+    </form>
+    <a class="mt-1 w-100 btn btn-lg btn-outline-dark" href="/signup" type="button">Sign up</a>
+
+    <p class="mt-5 mb-3 text-muted">2022</p>
+
+</main>
+
+
+
+<%- include('partials/footer') %>
