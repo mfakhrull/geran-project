@@ -1,6 +1,5 @@
 <%- include('partials/header') %>
 
-
 <div id="wrapper">
   <div class="overlay"></div>
 
@@ -21,73 +20,64 @@
         </ul>
       </li>
       <li class="logout"><a class="logout" href="/logout">Log Keluar</a></li>
-      <!-- <a class="btn btn-light btn-lg" href="/logout" role="button">Log Out</a> -->
     </ul>
   </nav>
-  </div>
-  <!-- /#sidebar-wrapper -->
+</div>
 
-  <!-- Page Content -->
-  <div id="page-content-wrapper">
-    <button type="button" class="hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
-      <span class="hamb-top"></span>
-      <span class="hamb-middle"></span>
-      <span class="hamb-bottom"></span>
-    </button>
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-lg-12 col-lg-offset-2">
+<!-- Page Content -->
+<div id="page-content-wrapper">
 
-          <table class="table caption-top">
-  <caption>List of users</caption>
-  <thead>
-    <tr>
-      <th scope="col">No</th>
-      <th scope="col">Nama</th>
-      <th scope="col">Tarikh Pendaftaran</th>
-      <th scope="col">Status Pendaftaran</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody>
+  <h3 class="d-flex ms-3">SISTEM PENDAFTARAN GERAN</h3>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-12 col-lg-offset-2">
+        <input type="text" id="myInput" class="d-flex" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+        <table id="userTable" class="table table-striped caption-top">
+          <caption>List of users</caption>
+          <thead>
+            <tr>
+              <th scope="col">No</th>
+              <th scope="col">Nama</th>
+              <th scope="col">Tarikh Pendaftaran</th>
+              <th scope="col">Status Pendaftaran</th>
+              <th scope="col">Pertukaran Status</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
 
-    <%  userApproved.forEach(function(user){  %>
-      <tr>
-        <th class="th-count" scope="row"></th>
-        <td><%= user.userData.nama %></td>
-        <td><%= user.userData.tarikhDaftar %></td>
-        <td><%= user.status %></td>
-        <td><form class="button-form" action="/delete/<%= user.id %>?_method=DELETE" method="POST">
-            <button class="btn btn-danger">Delete</button>
-            </form>
-            <form class="button-form" action="/main/statuslulus/<%= user.id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger"><i class="far fa-check-circle"></i></button>
+          <tbody>
+            <%  userApproved.forEach(function(user){  %>
+            <tr>
+              <th class="th-count" scope="row"></th>
+              <td><%= user.userData.nama %></td>
+              <td><%= user.userData.tarikhDaftar %></td>
+              <td><%= user.status %></td>
+              <td>
+                <form class="button-form" action="/main/statuslulus/<%= user.id %>" method="POST">
+                  <button class="btn btn-success"><i class="far fa-check-circle"></i></button>
                 </form>
-                <form class="button-form" action="/main/statustidaklulus/<%= user.id %>?_method=DELETE" method="POST">
-                    <button class="btn btn-danger"><i class="far fa-times-circle"></i></button>
-                    </form>
-                    <form class="button-form" action="/main/view/<%= user.id %>" method="POST">
-                        <button class="btn btn-danger">View</button>
-                        </form></td>
-      </tr>
-  <%  }) %>
+                <form class="button-form" action="/main/statustidaklulus/<%= user.id %>" method="POST">
+                  <button class="btn btn-danger"><i class="far fa-times-circle"></i></button>
+                </form>
+              </td>
+              <td>
+                <form class="button-form" action="/main/view/<%= user.id %>" method="POST">
+                  <button class="btn btn-secondary">View</button>
+                </form>
+                <form class="button-form" action="/delete/<%= user.id %>?_method=DELETE" method="POST">
+                  <button class="btn btn-outline-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            <%  }) %>
+          </tbody>
+        </table>
 
-
-  </tbody>
-</table>
-
-
-        </div>
       </div>
     </div>
   </div>
-  <!-- /#page-content-wrapper -->
+</div>
 
-
-<!-- /#wrapper -->
-
-
-
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> -->
+<script src="/js/script.js" charset="utf-8"></script>
 
 <%- include('partials/footer') %>

@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     noAkaun: {},
     statusPerkahwinan: {},
     alamat: {},
-    tarikhDaftar: {},
+    tarikhDaftar: {type:String},
     namaPasangan: {},
     jenisPengenalan: {},
     nomborPengenalan: {}
@@ -155,25 +155,31 @@ app.get("/main", function(req, res) {
 
 app.get("/usermain", function(req, res) {
   if(req.isAuthenticated()) {
-  res.render("usermain", {
-    // userWithData: req.user.userData
-  id: req.user,
-  status: req.user.status,
-  nama: req.user.userData.nama,
-  mykad: req.user.userData.mykad,
-  jantina: req.user.userData.jantina,
-  tel: req.user.userData.tel,
-  emailPendaftaran: req.user.userData.emailPendaftaran,
-  namaAkaun: req.user.userData.namaAkaun,
-  noAkaun: req.user.userData.noAkaun,
-  statusPerkahwinan: req.user.userData.statusPerkahwinan,
-  alamat: req.user.userData.alamat,
-  tarikhDaftar: req.user.userData.tarikhDaftar,
-  namaPasangan: req.user.userData.namaPasangan,
-  jenisPengenalan: req.user.userData.jenisPengenalan,
-  nomborPengenalan: req.user.userData.nomborPengenalan
-  });
-  console.log(req.user._id);
+
+    User.findById(req.user._id, function(err, result) {
+      if(err) {
+        console.log(err);
+      } else {
+        res.render("usermain", {
+          id: req.user,
+          status: result.status,
+          nama: result.userData.nama,
+          mykad: result.userData.mykad,
+          jantina: result.userData.jantina,
+          tel: result.userData.tel,
+          emailPendaftaran: result.userData.emailPendaftaran,
+          namaAkaun: result.userData.namaAkaun,
+          noAkaun: result.userData.noAkaun,
+          statusPerkahwinan: result.userData.statusPerkahwinan,
+          alamat: result.userData.alamat,
+          tarikhDaftar: result.userData.tarikhDaftar,
+          namaPasangan: result.userData.namaPasangan,
+          jenisPengenalan: result.userData.jenisPengenalan,
+          nomborPengenalan: result.userData.nomborPengenalan
+        });
+      }
+    });
+
 } else {
   res.redirect('/login');
 }
@@ -182,21 +188,31 @@ app.get("/usermain", function(req, res) {
 
 app.get("/pendaftaran", function(req, res) {
   if(req.isAuthenticated()) {
-    res.render("form", {
-    nama: req.user.userData.nama,
-    mykad: req.user.userData.mykad,
-    jantina: req.user.userData.jantina,
-    tel: req.user.userData.tel,
-    emailPendaftaran: req.user.userData.emailPendaftaran,
-    namaAkaun: req.user.userData.namaAkaun,
-    noAkaun: req.user.userData.noAkaun,
-    statusPerkahwinan: req.user.userData.statusPerkahwinan,
-    alamat: req.user.userData.alamat,
-    tarikhDaftar: req.user.userData.tarikhDaftar,
-    namaPasangan: req.user.userData.namaPasangan,
-    jenisPengenalan: req.user.userData.jenisPengenalan,
-    nomborPengenalan: req.user.userData.nomborPengenalan
+
+    User.findById(req.user._id, function(err, result) {
+      if(err) {
+        console.log(err);
+      } else {
+        res.render("form", {
+          id: req.user,
+          status: result.status,
+          nama: result.userData.nama,
+          mykad: result.userData.mykad,
+          jantina: result.userData.jantina,
+          tel: result.userData.tel,
+          emailPendaftaran: result.userData.emailPendaftaran,
+          namaAkaun: result.userData.namaAkaun,
+          noAkaun: result.userData.noAkaun,
+          statusPerkahwinan: result.userData.statusPerkahwinan,
+          alamat: result.userData.alamat,
+          tarikhDaftar: result.userData.tarikhDaftar,
+          namaPasangan: result.userData.namaPasangan,
+          jenisPengenalan: result.userData.jenisPengenalan,
+          nomborPengenalan: result.userData.nomborPengenalan
+        });
+      }
     });
+
   } else {
       res.redirect("/login");
   }
@@ -372,7 +388,7 @@ app.post('/delete/user/:id', function(req, res) {
     nomborPengenalan: undefined
   };
 
-  User.findByIdAndUpdate(req.user._id, { userData: formData } ,function(err){
+  User.findByIdAndUpdate(req.user._id, { userData: formData, status: undefined } ,function(err){
     if(err) {
       console.log(err);
     } else {
@@ -383,6 +399,8 @@ app.post('/delete/user/:id', function(req, res) {
             res.redirect("/usermain");
     }
   );
+
+
 
 
 });
