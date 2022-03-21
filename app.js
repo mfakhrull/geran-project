@@ -8,8 +8,6 @@ const mongoose = require("mongoose");
 const session = require('express-session');
 const passport = require("passport");
 const passportLocalMongoose = require("passport-local-mongoose");
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-// const LocalStrategy = require('passport-local').Strategy;
 const findOrCreate = require('mongoose-findorcreate');
 
 const app = express();
@@ -22,7 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 
 app.use(session({
-  secret: "Our litle secret",
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: false
 }));
@@ -54,7 +52,6 @@ const userSchema = new mongoose.Schema({
 
 }, { minimize: false });
 
-//Hash password(passport-local-mongoose ( pbkdf2 algorithm ))
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
@@ -69,27 +66,6 @@ passport.serializeUser(function(user, done) {
 passport.deserializeUser(function(user, done) {
   done(null, user);
 });
-
-// passport.use(new LocalStrategy(
-//     {username:"email", password:"password"},
-//     function(username, password, done) {
-//         return done(null, false, {message:'Unable to login'});
-//     }
-// ));
-
-passport.use(new GoogleStrategy({
-    clientID: process.env.CLIENT_ID,
-    clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth/google/"
-  },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
-));
-
-
 
 
 app.get("/", function(req, res){
@@ -106,29 +82,6 @@ app.get('/auth/google',
   }
 );
 
-
-//Github Oauth2
-// passport.use(new GitHubStrategy({
-//   clientID: process.env.GITHUB_CLIENT_ID,
-//   clientSecret: process.env.GITHUB_CLIENT_SECRETS,
-//   callbackURL: "http://localhost:3000/auth/github/secrets"
-//   },
-//   function(accessToken, refreshToken, profile, done) {
-//     User.findOrCreate({ githubId: profile.id }, function (err, user) {
-//       return done(err, user);
-//     });
-//   }
-// ));
-//
-// app.get('/auth/github',
-//   passport.authenticate('github', { scope: [ 'user:email' ] }));
-//
-// app.get('/auth/github/secrets',
-//   passport.authenticate('github', { failureRedirect: '/login' }),
-//   function(req, res) {
-//     // Successful authentication, redirect home.
-//     res.redirect('/secrets');
-//   });
 
 app.get("/login", function(req, res){
   res.render("login");
@@ -497,10 +450,6 @@ app.post("/main/view/:id", function(req, res) {
 //     }
 //   });
 // });
-
-
-
-
 
 
 
